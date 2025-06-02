@@ -25,11 +25,6 @@
             <div>
                 <div class="flex items-center justify-between">
                     <x-label for="password" value="{{ __('Password') }}" class="text-gray-700 font-medium" />
-                    @if (Route::has('password.request'))
-                        <a class="text-sm text-red-600 hover:text-red-800 font-medium" href="{{ route('password.request') }}">
-                            {{ __('Forgot password?') }}
-                        </a>
-                    @endif
                 </div>
                 <div class="mt-1">
                     <x-input id="password" class="block w-full px-4 py-3 border-gray-300 rounded-lg focus:border-red-500 focus:ring focus:ring-red-200 focus:ring-opacity-50 transition duration-150" type="password" name="password" required autocomplete="current-password" placeholder="••••••••" />
