@@ -1,16 +1,21 @@
 services:
   - type: web
-    name: laravel-ssp
+    name: ssp-sem2-host
     runtime: docker
-    buildCommand: ""
-    startCommand: ""
+    repo: https://github.com/ahuzaaaaam/ssp-sem2-host
+    branch: main
+    plan: free
+    dockerContext: .
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: APP_ENV
         value: production
+      - key: APP_KEY
+        value: base64:V0fcyyhvsh/u4PV0j1yqUj+i2zoDH7dmfpD9zpcye6s=
       - key: APP_DEBUG
         value: false
-      - key: APP_KEY
-        sync: false
+      - key: APP_URL
+        value: https://ssp-sem2-host.onrender.com
       - key: DB_CONNECTION
         value: mysql
       - key: DB_HOST
@@ -22,4 +27,8 @@ services:
       - key: DB_USERNAME
         value: root
       - key: DB_PASSWORD
-        sync: false
+        value: your-mysql-password
+      - key: MONGO_DB_URI
+        value: mongodb+srv://SSP:admin123@ssp.tgbmx4b.mongodb.net/?retryWrites=true&w=majority&appName=SSP
+      - key: MONGO_DB_DATABASE
+        value: SSP
