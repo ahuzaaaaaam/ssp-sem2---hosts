@@ -1,26 +1,23 @@
-# Base image with Apache and PHP
-FROM php:8.2-apache
+FROM php:8.2-fpm
 
-# Enable required PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql
+# Install required packages
+RUN apt-get update && apt-get install -y \
+    git unzip curl libzip-dev libpng-dev libonig-dev libxml2-dev libicu-dev libcurl4-openssl-dev pkg-config libssl-dev \
+    && docker-php-ext-install zip pdo_mysql bcmath intl
 
-# Enable Apache rewrite module (Laravel needs this)
-RUN a2enmod rewrite
+# ✅ Install MongoDB extension
+RUN pecl install mongodb && docker-php-ext-enable mongodb
 
-# Set working directory
-WORKDIR /var/www/html
-
-# Copy Laravel project files
-COPY . .
-
-# Install Composer globally from Composer image
+# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Install Laravel dependencies
-RUN composer install --optimize-autoloader --no-dev
+# Set working directory
+WORKDIR /var/www
 
-# Set Laravel folder permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# Copy project files
+COPY . .
 
-# Laravel runs on port 80 by default inside Apache
-EXPOSE 80
+# Install PHP dependencies
+RUN composer install --no-dev --optimize-autoloader
+
+CMD ["php-fpm"]
