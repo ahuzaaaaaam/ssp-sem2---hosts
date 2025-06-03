@@ -25,7 +25,7 @@
         @endif
     </div>
     <!-- Admin Dashboard Header -->
-    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 py-8 px-4 sm:px-6 lg:px-8 mb-6">
+    <div class="bg-white py-8 px-4 sm:px-6 lg:px-8 mb-6 shadow-none border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
             <h1 class="text-3xl font-bold text-black mb-2">Admin Dashboard</h1>
             <p class="text-gray-700">Welcome to the PizzApp Admin Panel. Manage your products, users, and orders.</p>
