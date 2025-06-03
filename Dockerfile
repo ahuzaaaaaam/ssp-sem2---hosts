@@ -34,7 +34,6 @@ RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/lo
 # Install Laravel dependencies
 RUN composer install --no-dev --optimize-autoloader
 RUN php artisan config:clear
-RUN php artisan cache:clear
 
 # Set Apache to serve the public folder
 RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf
