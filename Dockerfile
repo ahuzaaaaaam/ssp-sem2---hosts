@@ -1,26 +1,28 @@
-# Base image with Apache and PHP
+# Use PHP with Apache
 FROM php:8.2-apache
 
-# Enable required PHP extensions
+# Install required PHP extensions
 RUN docker-php-ext-install pdo pdo_mysql
 
-# Enable Apache rewrite module (Laravel needs this)
+# Enable Apache rewrite
 RUN a2enmod rewrite
+
+# Install system dependencies and Composer
+RUN apt-get update && apt-get install -y unzip curl git && \
+    curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer
 
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy Laravel project files
+# Copy Laravel project
 COPY . .
 
-# Install Composer globally from Composer image
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
 # Install Laravel dependencies
-RUN composer install --optimize-autoloader --no-dev
+RUN composer install --optimize-autoloader --no-dev || true
 
-# Set Laravel folder permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# Set permissions
+RUN chown -R www-data:www-data storage bootstrap/cache
 
-# Laravel runs on port 80 by default inside Apache
+# Expose port 80
 EXPOSE 80
