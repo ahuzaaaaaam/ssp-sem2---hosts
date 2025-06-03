@@ -18,6 +18,14 @@ WORKDIR /var/www/html
 # Copy Laravel project files
 COPY . /var/www/html
 
+# Install Node.js (LTS)
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
+    apt-get install -y nodejs
+
+# Install NPM dependencies and build assets
+WORKDIR /var/www/html
+RUN npm ci && npm run build
+
 # Set Apache to serve the public folder
 RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf
 
